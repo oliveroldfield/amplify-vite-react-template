@@ -1,11 +1,15 @@
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
 import { data } from './data/resource';
+import { createFaceLiveNessSession } from './functions/createFaceLivenessSession';
+import { getFaceLivenessSessionResults } from './functions/getFaceLivenessSessionResults';
 import { Policy, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 
 const backend = defineBackend({
   auth,
   data,
+  createFaceLiveNessSession,
+  getFaceLivenessSessionResults
 });
 
 const livenessStack = backend.createStack("liveness-stack");
