@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
-
+import { Amplify } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react'
+import { FaceLivenessDetector } from '@aws-amplify/ui-react-liveness';
 import '@aws-amplify/ui-react/styles.css'
 
 const client = generateClient<Schema>();
@@ -24,6 +25,32 @@ function App() {
   function createTodo() {
     client.models.Todo.create({ content: window.prompt("Todo content") });
   }
+  const [loading, setLoading] = useState(true);
+  const [sessionId, setSessionId] = useState(null);
+  const [faceLivenessAnalysis, setFaceLivenessAnalysis] = useState(null);
+
+  const fetchCreateLiveness = async () => {
+    try {
+      const response = await fetch('https://your-api-endpoint/create-liveness-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({}),
+      });
+      const data = await response.json();
+      setSessionId(data.sessionId);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error creating liveness session:', error);
+      setLoading(false);
+    }
+  };
+  fetchCreateLiveness();
+
+  const handleAnalysisComplete = async () => {
+    setLoading(false);
+  };
 
   return (
         
@@ -47,6 +74,10 @@ function App() {
         </a>
       </div>
       <button onClick={signOut}>Sign out</button>
+      <FaceLivenessDetector
+          sessionId={sessionId}
+          onAnalysisComplete={handleAnalysisComplete}
+        />
     </main>
         
       )}
