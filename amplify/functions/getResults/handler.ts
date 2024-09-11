@@ -1,11 +1,10 @@
 import { RekognitionClient, GetFaceLivenessSessionResultsCommand } from "@aws-sdk/client-rekognition";
-import { defineFunction } from "@aws-amplify/backend";
+import type { Handler } from 'aws-lambda';
 
-export const getFaceLivenessSessionResults = defineFunction({
-  name: 'getFaceLivenessSessionResults',
-  handler: async (event) => {
+export const handler: Handler = async (event, context) => {
     const rekognition = new RekognitionClient({ region: 'us-east-1' });
     const sessionId = event.sessionId;
+    console.log({ context });
 
     try {
       const command = new GetFaceLivenessSessionResultsCommand({ SessionId: sessionId });
@@ -22,5 +21,4 @@ export const getFaceLivenessSessionResults = defineFunction({
         body: JSON.stringify({ error: 'Failed to get session results' })
       };
     }
-  },
-});
+  };

@@ -1,9 +1,10 @@
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
 import { data } from './data/resource';
-import { createSession } from './functions/createSession';
-import { getResults } from './functions/getResults';
+import { createSession } from './functions/createSession/resource';
+import { getResults } from './functions/getResults/resource';
 import { Policy, PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { Stack } from "aws-cdk-lib";
 
 const backend = defineBackend({
   auth,
