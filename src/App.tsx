@@ -27,7 +27,7 @@ function App() {
   }
   const [loading, setLoading] = useState(true);
   const [sessionId, setSessionId] = useState(null);
-  const [faceLivenessAnalysis, setFaceLivenessAnalysis] = useState(null);
+  //const [faceLivenessAnalysis, setFaceLivenessAnalysis] = useState(null);
 
   const fetchCreateLiveness = async () => {
     try {
@@ -66,6 +66,7 @@ function App() {
           key={todo.id}>{todo.content}</li>
         ))}
       </ul>
+      {loading && <p>Loading...</p>}
       <div>
         🥳 App successfully hosted. Try creating a new todo.
         <br />
@@ -75,9 +76,8 @@ function App() {
       </div>
       <button onClick={signOut}>Sign out</button>
       <FaceLivenessDetector
-          sessionId={sessionId}
-          onAnalysisComplete={handleAnalysisComplete}
-        />
+            sessionId={sessionId ?? ''}
+            onAnalysisComplete={handleAnalysisComplete} region={"us-east-1"}        />
     </main>
         
       )}
