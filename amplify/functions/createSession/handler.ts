@@ -1,8 +1,9 @@
 import {
   RekognitionClient,
-  GetFaceLivenessSessionResultsCommand,
+  CreateFaceLivenessSessionCommand,
 } from '@aws-sdk/client-rekognition';
 import type { Handler } from 'aws-lambda';
+
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
@@ -11,12 +12,8 @@ export const handler: Handler = async (event, context) => {
   console.log({ context });
   console.log({ event });
   const client = new RekognitionClient({ region: 'us-east-1' });
-  const command = new GetFaceLivenessSessionResultsCommand({
-    SessionId: event.pathParameters.sessionId,
-  });
+  const command = new CreateFaceLivenessSessionCommand({});
   const response = await client.send(command);
-
-  const isLive = response.Confidence !== undefined && response.Confidence > 90;
 
   return {
     statusCode: 200,
@@ -25,11 +22,7 @@ export const handler: Handler = async (event, context) => {
       'Access-Control-Allow-Headers': '*',
     },
     body: JSON.stringify({
-      isLive,
-      confidenceScore: response.Confidence
+      sessionId: response.SessionId,
     }),
-    /* auditImageBytes: Buffer.from(
-      new Uint8Array(Object.values(response.ReferenceImage.Bytes))
-    ).toString('base64'), */
   };
 };
