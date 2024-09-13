@@ -26,11 +26,11 @@ function App() {
   }
   const [loading, setLoading] = useState(true);
   const [sessionId, setSessionId] = useState(null);
-  //const [faceLivenessAnalysis, setFaceLivenessAnalysis] = useState(null);
+  const [faceLivenessAnalysis, setFaceLivenessAnalysis] = useState(null);
 
   const fetchCreateLiveness = async () => {
     try {
-      const response = await fetch('https://your-api-endpoint/create-liveness-session', {
+      const response = await fetch('https://main.djrc89gikdzym.amplifyapp.com/session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -49,6 +49,12 @@ function App() {
 
   const handleAnalysisComplete = async () => {
     setLoading(false);
+    const response = await fetch(
+      `/api/results?sessionId=${sessionId}`
+    );
+    const data = await response.json();
+    setFaceLivenessAnalysis(data);
+    console.log(faceLivenessAnalysis);
   };
 
   return (

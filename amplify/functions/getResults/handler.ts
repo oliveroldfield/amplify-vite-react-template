@@ -3,7 +3,7 @@ import type { APIGatewayProxyHandler, Handler } from 'aws-lambda';
 
 export const handler: APIGatewayProxyHandler = async (event, context) => {
     const rekognition = new RekognitionClient({ region: 'us-east-1' });
-    const sessionId = event.sessionId;
+    const sessionId = event.queryStringParameters?.sessionId;
     console.log({ context });
 
     try {
