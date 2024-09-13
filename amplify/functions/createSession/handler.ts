@@ -2,13 +2,13 @@ import {
   RekognitionClient,
   CreateFaceLivenessSessionCommand,
 } from '@aws-sdk/client-rekognition';
-import type { Handler } from 'aws-lambda';
+import type { APIGatewayProxyHandler, Handler } from 'aws-lambda';
 
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 
-export const handler: Handler = async (event, context) => {
+export const handler: APIGatewayProxyHandler = async (event, context) => {
   console.log({ context });
   console.log({ event });
   const client = new RekognitionClient({ region: 'us-east-1' });
