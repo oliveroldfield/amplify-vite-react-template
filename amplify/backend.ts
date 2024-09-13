@@ -40,7 +40,7 @@ const myRestApi = new RestApi(livenessStack, "RestApi", {
     stageName: "dev",
   },
   defaultCorsPreflightOptions: {
-    allowOrigins: Cors.ALL_ORIGINS, // Restrict this to domains you trust
+    allowOrigins: ["https://main.djrc89gikdzym.amplifyapp.com"], // Restrict this to domains you trust
     allowMethods: Cors.ALL_METHODS, // Specify only the methods you need to allow
     allowHeaders: Cors.DEFAULT_HEADERS, // Specify only the headers you need to allow
   },
