@@ -30,7 +30,7 @@ function App() {
 
   const fetchCreateLiveness = async () => {
     try {
-      const response = await fetch('https://main.djrc89gikdzym.amplifyapp.com/session', {
+      const response = await fetch('https://z9p24rpnxe.execute-api.us-east-1.amazonaws.com/api/session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ function App() {
   const handleAnalysisComplete = async () => {
     setLoading(false);
     const response = await fetch(
-      `/api/results?sessionId=${sessionId}`
+      `https://z9p24rpnxe.execute-api.us-east-1.amazonaws.com/api/result?sessionId=${sessionId}`
     );
     const data = await response.json();
     setFaceLivenessAnalysis(data);

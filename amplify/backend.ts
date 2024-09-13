@@ -95,9 +95,9 @@ const apiRestPolicy = new Policy(livenessStack, "RestApiPolicy", {
     new PolicyStatement({
       actions: ["execute-api:Invoke"],
       resources: [
-        `${myRestApi.arnForExecuteApi("*", "/items", "dev")}`,
-        `${myRestApi.arnForExecuteApi("*", "/items/*", "dev")}`,
-        `${myRestApi.arnForExecuteApi("*", "/cognito-auth-path", "dev")}`,
+        `${myRestApi.arnForExecuteApi("*", "/items", "api")}`,
+        `${myRestApi.arnForExecuteApi("*", "/items/*", "api")}`,
+        `${myRestApi.arnForExecuteApi("*", "/cognito-auth-path", "api")}`,
       ],
     }),
   ],
