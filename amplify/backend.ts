@@ -46,12 +46,25 @@ const myRestApi = new RestApi(livenessStack, "RestApi", {
   },
 });
 
+const createSessionLambda = backend.createSession.resources.lambda;
+const getResultsLambda = backend.getResults.resources.lambda;
+
+const statement = new PolicyStatement({
+  sid: "AllowRekognition",
+  actions: ["regoknition:*"],
+  resources: ["*"],
+})
+
+createSessionLambda.addToRolePolicy(statement);
+getResultsLambda.addToRolePolicy(statement);
+
 const createSessionLambdaIntegration = new LambdaIntegration(
-  backend.createSession.resources.lambda
+  createSessionLambda
 );
 const getResultsLambdaIntegration = new LambdaIntegration(
-  backend.getResults.resources.lambda
+  getResultsLambda
 );
+
 
 // create a new resource path with IAM authorization
 const sessionPath = myRestApi.root.addResource("session", {
