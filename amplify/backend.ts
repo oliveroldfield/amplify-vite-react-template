@@ -51,7 +51,7 @@ const getResultsLambda = backend.getResults.resources.lambda;
 
 const statement = new PolicyStatement({
   sid: "AllowRekognition",
-  actions: ["regoknition:*"],
+  actions: ["rekognition:*"],
   resources: ["*"],
 })
 
