@@ -4,6 +4,7 @@ import { generateClient } from "aws-amplify/data";
 import { Authenticator } from '@aws-amplify/ui-react'
 import { FaceLivenessDetector } from '@aws-amplify/ui-react-liveness';
 import '@aws-amplify/ui-react/styles.css'
+import { Auth } from 'aws-amplify';
 
 const client = generateClient<Schema>();
 
@@ -30,10 +31,14 @@ function App() {
 
   const fetchCreateLiveness = async () => {
     try {
+      const session = await Auth.currentSession();
+      const token = session.getIdToken().getJwtToken();
+
       const response = await fetch('https://z9p24rpnxe.execute-api.us-east-1.amazonaws.com/api/session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({}),
       });

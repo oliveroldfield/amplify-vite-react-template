@@ -106,7 +106,7 @@ resultsPath.addProxy({
 
 
 // create a new IAM policy to allow Invoke access to the API
-const apiRestPolicy = new Policy(livenessStack, "RestApiPolicy", {
+/* const apiRestPolicy = new Policy(livenessStack, "RestApiPolicy", {
   statements: [
     new PolicyStatement({
       actions: ["execute-api:Invoke"],
@@ -127,7 +127,7 @@ backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(
 
 backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(
   apiRestPolicy
-);
+); */
 
 // add outputs to the configuration file
 backend.addOutput({
