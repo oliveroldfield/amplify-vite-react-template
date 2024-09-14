@@ -37,12 +37,13 @@ const myRestApi = new RestApi(livenessStack, "RestApi", {
   restApiName: "myRestApi",
   deploy: true,
   deployOptions: {
-    stageName: "dev",
+    stageName: "api",
   },
   defaultCorsPreflightOptions: {
     allowOrigins: ["https://main.djrc89gikdzym.amplifyapp.com"], // Restrict this to domains you trust
     allowMethods: Cors.ALL_METHODS, // Specify only the methods you need to allow
     allowHeaders: Cors.DEFAULT_HEADERS, // Specify only the headers you need to allow
+
   },
 });
 
@@ -66,29 +67,17 @@ const getResultsLambdaIntegration = new LambdaIntegration(
 );
 
 
-// create a new resource path with IAM authorization
+// create a new resource path with IAM authorization for /session
 const sessionPath = myRestApi.root.addResource("session", {
   defaultMethodOptions: {
     authorizationType: AuthorizationType.IAM,
   },
 });
 
-// create a new resource path with IAM authorization
-const resultsPath = myRestApi.root.addResource("results", {
-  defaultMethodOptions: {
-    authorizationType: AuthorizationType.IAM,
-  },
-});
-
 sessionPath.addMethod("GET", createSessionLambdaIntegration);
-sessionPath.addMethod("POST", createSessionLambdaIntegration);
+/* sessionPath.addMethod("POST", createSessionLambdaIntegration);
 sessionPath.addMethod("DELETE", createSessionLambdaIntegration);
-sessionPath.addMethod("PUT", createSessionLambdaIntegration);
-
-resultsPath.addMethod("GET", getResultsLambdaIntegration);
-resultsPath.addMethod("POST", getResultsLambdaIntegration);
-resultsPath.addMethod("DELETE", getResultsLambdaIntegration);
-resultsPath.addMethod("PUT", getResultsLambdaIntegration);
+sessionPath.addMethod("PUT", createSessionLambdaIntegration); */
 
 // add a proxy resource path to the API
 sessionPath.addProxy({
@@ -96,11 +85,25 @@ sessionPath.addProxy({
   defaultIntegration: createSessionLambdaIntegration,
 });
 
+
+// create a new resource path with IAM authorization for /results
+const resultsPath = myRestApi.root.addResource("results", {
+  defaultMethodOptions: {
+    authorizationType: AuthorizationType.IAM,
+  },
+});
+
+resultsPath.addMethod("GET", getResultsLambdaIntegration);
+/* resultsPath.addMethod("POST", getResultsLambdaIntegration);
+resultsPath.addMethod("DELETE", getResultsLambdaIntegration);
+resultsPath.addMethod("PUT", getResultsLambdaIntegration); */
+
 // add a proxy resource path to the API
 resultsPath.addProxy({
   anyMethod: true,
   defaultIntegration: getResultsLambdaIntegration,
 });
+
 
 // create a new IAM policy to allow Invoke access to the API
 const apiRestPolicy = new Policy(livenessStack, "RestApiPolicy", {
@@ -108,9 +111,11 @@ const apiRestPolicy = new Policy(livenessStack, "RestApiPolicy", {
     new PolicyStatement({
       actions: ["execute-api:Invoke"],
       resources: [
-        `${myRestApi.arnForExecuteApi("*", "/items", "dev")}`,
-        `${myRestApi.arnForExecuteApi("*", "/items/*", "dev")}`,
-        `${myRestApi.arnForExecuteApi("*", "/cognito-auth-path", "dev")}`,
+        `${myRestApi.arnForExecuteApi("*", "/session", "api")}`,
+        `${myRestApi.arnForExecuteApi("*", "/results", "api")}`,
+        `${myRestApi.arnForExecuteApi("*", "/session/*", "api")}`,
+        `${myRestApi.arnForExecuteApi("*", "/results/*", "api")}`,
+        `${myRestApi.arnForExecuteApi("*", "/cognito-auth-path", "api")}`,
       ],
     }),
   ],
@@ -119,6 +124,7 @@ const apiRestPolicy = new Policy(livenessStack, "RestApiPolicy", {
 backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(
   apiRestPolicy
 );
+
 backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(
   apiRestPolicy
 );
