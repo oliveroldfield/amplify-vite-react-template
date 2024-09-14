@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { Authenticator } from '@aws-amplify/ui-react'
+import { fetchAuthSession } from 'aws-amplify/auth'
 import { FaceLivenessDetector } from '@aws-amplify/ui-react-liveness';
 import '@aws-amplify/ui-react/styles.css'
 import { Auth } from 'aws-amplify';
@@ -31,14 +32,16 @@ function App() {
 
   const fetchCreateLiveness = async () => {
     try {
-      const session = await Auth.currentSession();
-      const token = session.getIdToken().getJwtToken();
+      /* const session = await Auth.currentSession();
+      const token = session.getIdToken().getJwtToken(); */
+      const session = await fetchAuthSession();
+      const token = session.tokens?.idToken
 
       const response = await fetch('https://z9p24rpnxe.execute-api.us-east-1.amazonaws.com/api/session', {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Authorization': `${token}`
         },
         body: JSON.stringify({}),
       });
@@ -54,8 +57,16 @@ function App() {
 
   const handleAnalysisComplete = async () => {
     setLoading(false);
+    const session = await fetchAuthSession();
+    const token = session.tokens?.idToken
     const response = await fetch(
-      `https://z9p24rpnxe.execute-api.us-east-1.amazonaws.com/api/result?sessionId=${sessionId}`
+      `https://z9p24rpnxe.execute-api.us-east-1.amazonaws.com/api/result?sessionId=${sessionId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `${token}`
+        }
+      }
     );
     const data = await response.json();
     setFaceLivenessAnalysis(data);
