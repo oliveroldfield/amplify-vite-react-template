@@ -30,31 +30,34 @@ function App() {
   const [sessionId, setSessionId] = useState(null);
   const [faceLivenessAnalysis, setFaceLivenessAnalysis] = useState(null);
 
-  const fetchCreateLiveness = async () => {
-    try {
-      /* const session = await Auth.currentSession();
-      const token = session.getIdToken().getJwtToken(); */
-
-
-      /* const session = await fetchAuthSession();
-      const token = session.tokens?.idToken */
-
-      const response = await fetch('https://z9p24rpnxe.execute-api.us-east-1.amazonaws.com/api/session', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-          /* 'Authorization': `${token}` */
-        }
-      });
-      const data = await response.json();
-      setSessionId(data.sessionId);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error creating liveness session:', error);
-      setLoading(false);
-    }
-  };
-  fetchCreateLiveness();
+  useEffect(() => {
+    const fetchCreateLivenessSession = async () => {
+      try {
+        /* const session = await Auth.currentSession();
+        const token = session.getIdToken().getJwtToken(); */
+  
+  
+        /* const session = await fetchAuthSession();
+        const token = session.tokens?.idToken */
+  
+        const response = await fetch('https://z9p24rpnxe.execute-api.us-east-1.amazonaws.com/api/session', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+            /* 'Authorization': `${token}` */
+          }
+        });
+        const data = await response.json();
+        setSessionId(data.sessionId);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error creating liveness session:', error);
+        setLoading(false);
+      }
+    };
+    fetchCreateLivenessSession();
+  }, []);
+  
 
   const handleAnalysisComplete = async () => {
     setLoading(false);
@@ -99,7 +102,8 @@ function App() {
       <button onClick={signOut}>Sign out</button>
       <FaceLivenessDetector
             sessionId={sessionId ?? ''}
-            onAnalysisComplete={handleAnalysisComplete} region={"us-east-1"}        />
+            onAnalysisComplete={handleAnalysisComplete} 
+            region={"us-east-1"}        />
     </main>
         
       )}
