@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { Authenticator } from '@aws-amplify/ui-react'
-import { fetchAuthSession } from 'aws-amplify/auth'
+//import { fetchAuthSession } from 'aws-amplify/auth'
 import { FaceLivenessDetector } from '@aws-amplify/ui-react-liveness';
 import '@aws-amplify/ui-react/styles.css'
 //import { Auth } from 'aws-amplify';
