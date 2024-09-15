@@ -42,8 +42,7 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `${token}`
-        },
-        body: JSON.stringify({}),
+        }
       });
       const data = await response.json();
       setSessionId(data.sessionId);
