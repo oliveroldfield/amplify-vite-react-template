@@ -5,7 +5,7 @@ import { Authenticator } from '@aws-amplify/ui-react'
 import { fetchAuthSession } from 'aws-amplify/auth'
 import { FaceLivenessDetector } from '@aws-amplify/ui-react-liveness';
 import '@aws-amplify/ui-react/styles.css'
-import { Auth } from 'aws-amplify';
+//import { Auth } from 'aws-amplify';
 
 const client = generateClient<Schema>();
 

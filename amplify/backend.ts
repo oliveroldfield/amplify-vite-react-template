@@ -69,9 +69,9 @@ const getResultsLambdaIntegration = new LambdaIntegration(
 
 // create a new resource path with IAM authorization for /session
 const sessionPath = myRestApi.root.addResource("session", {
-  defaultMethodOptions: {
+ /*  defaultMethodOptions: {
     authorizationType: AuthorizationType.COGNITO,
-  },
+  }, */
 });
 
 sessionPath.addMethod("GET", createSessionLambdaIntegration);
@@ -88,9 +88,9 @@ sessionPath.addProxy({
 
 // create a new resource path with IAM authorization for /results
 const resultsPath = myRestApi.root.addResource("results", {
-  defaultMethodOptions: {
+  /* defaultMethodOptions: {
     authorizationType: AuthorizationType.COGNITO,
-  },
+  }, */
 });
 
 resultsPath.addMethod("GET", getResultsLambdaIntegration);
