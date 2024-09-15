@@ -34,14 +34,16 @@ function App() {
     try {
       /* const session = await Auth.currentSession();
       const token = session.getIdToken().getJwtToken(); */
-      const session = await fetchAuthSession();
-      const token = session.tokens?.idToken
+
+
+      /* const session = await fetchAuthSession();
+      const token = session.tokens?.idToken */
 
       const response = await fetch('https://z9p24rpnxe.execute-api.us-east-1.amazonaws.com/api/session', {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `${token}`
+          'Content-Type': 'application/json'
+          /* 'Authorization': `${token}` */
         }
       });
       const data = await response.json();
@@ -62,8 +64,8 @@ function App() {
       `https://z9p24rpnxe.execute-api.us-east-1.amazonaws.com/api/result?sessionId=${sessionId}`, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `${token}`
+          'Content-Type': 'application/json'
+          /* 'Authorization': `${token}` */
         }
       }
     );
