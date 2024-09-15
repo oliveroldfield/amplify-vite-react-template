@@ -58,8 +58,8 @@ function App() {
 
   const handleAnalysisComplete = async () => {
     setLoading(false);
-    const session = await fetchAuthSession();
-    const token = session.tokens?.idToken
+    //const session = await fetchAuthSession();
+    //const token = session.tokens?.idToken
     const response = await fetch(
       `https://z9p24rpnxe.execute-api.us-east-1.amazonaws.com/api/result?sessionId=${sessionId}`, {
         method: 'GET',
