@@ -33,7 +33,7 @@ function App() {
   const handleAnalysisComplete = async () => {
     setLoading(false);
     const response = await fetch(
-      `https://z9p24rpnxe.execute-api.us-east-1.amazonaws.com/api/result?sessionId=${sessionId}`, {
+      `https://z9p24rpnxe.execute-api.us-east-1.amazonaws.com/api/result?sessionId=${createLivenessApiData?.sessionId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
