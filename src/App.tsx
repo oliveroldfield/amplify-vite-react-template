@@ -60,7 +60,7 @@ function App() {
           }}
         />
       )}
-      {faceLivenessAnalysis.Status === "SUCCEEDED" ? (
+      {faceLivenessAnalysis && faceLivenessAnalysis.Status === "SUCCEEDED" ? (
         <div>
           <h1>Liveness Detection Result: {faceLivenessAnalysis.Status}</h1>          
           <p>Confidence Score: {faceLivenessAnalysis.Confidence}</p>
