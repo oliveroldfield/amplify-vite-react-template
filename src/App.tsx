@@ -41,7 +41,7 @@ function App() {
       }
     );
     const data = await response.json();
-    setFaceLivenessAnalysis(data);
+    setFaceLivenessAnalysis(data.response);
     console.log(faceLivenessAnalysis);
   };
 
@@ -59,6 +59,16 @@ function App() {
             console.error(error);
           }}
         />
+      )}
+      {faceLivenessAnalysis.Status === "SUCCEEDED" ? (
+        <div>
+          <h1>Liveness Detection Result: {faceLivenessAnalysis.Status}</h1>          
+          <p>Confidence Score: {faceLivenessAnalysis.Confidence}</p>
+        </div>
+      ) : (
+        <div>
+          <h1>Liveness Detection Result: {faceLivenessAnalysis?.Status || "PENDING"}</h1>
+        </div>
       )}
     </ThemeProvider>  
   );
